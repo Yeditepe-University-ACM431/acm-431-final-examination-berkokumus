@@ -7,18 +7,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.yeditepe.finalexam.model.Task
-import com.yeditepe.finalexam.viewmodel.TaskViewModel
+
+private val List<Task>.value: Any
 
 @Composable
-fun TaskListScreen(viewModel: TaskViewModel = viewModel()) {
+fun TaskListScreen(viewModel: NavHostController = viewModel(), navController: NavController) {
 
     // TODO 3: Read task list from ViewModel
+    val tasks = viewModel.tasks.value
+
 
     Column {
         // TODO 4: Display task titles and completion status
         // Use a simple Column or LazyColumn
+
+        tasks.forEach { task ->
+            TaskRow(task = task, navController = navController)
+        }
     }
+}
+
+private fun Any.forEach(function: Any) {
+    TODO("Not yet implemented")
 }
 
 @Composable
@@ -28,6 +40,7 @@ fun TaskRow(task: Task, navController: NavController) {
         text = task.title,
         modifier = Modifier.clickable {
             // TODO 3: Navigate to detail screen with task title
+            navController.navigate("taskDetail/${task.title}")
         }
     )
 }
